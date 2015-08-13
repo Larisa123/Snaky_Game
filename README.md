@@ -1,1 +1,1 @@
-# Snaky_Game
+A game written in Kivy (works on android). 
