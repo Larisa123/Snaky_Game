@@ -1,4 +1,4 @@
-Igra je napisana v Python knjiznjici Kivy, ki jo je treba posebaj namestiti na racunalnik.
+Igra je napisana v Python kniznjici Kivy, ki jo je treba posebaj namestiti na racunalnik.
 Navodila za namestitev so na spletni strani kivy.org.
 
 Za delovanje na racunalniskih sistemih je potrebno poganjati datoteko iz mape s vsemi 
