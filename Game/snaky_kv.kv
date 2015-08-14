@@ -1,0 +1,177 @@
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+			
+<EvilSnake>:
+	size: self.parent.height*0.067, self.parent.height*0.067
+	canvas: 
+		Color: 
+			rgba: 1,1,1,1
+		Ellipse:
+			pos: self.pos
+			size: self.size
+			source: "evil_snaky.png"	
+			
+<SnakeGame>:
+	evil_snaky: evilsnake
+	canvas: 
+		Color: 
+			rgba: 1,1,1,0.2
+		Rectangle:
+			size: self.size
+			pos: self.pos
+			source: "white.png"
+	EvilSnake:
+		id: evilsnake
+		center: self.parent.center[0]-150, self.parent.center[1]
+	
+		
+<Button>:
+	background_down: "bg_image.png"
+		
+<GameScreen>:
+	canvas.before:
+		Rectangle:
+			size: self.size
+			pos: self.pos
+			source: "lights.png"
+	ActionBar:
+		id: action_bar
+		background_color: 0.012, 0.3, 0.11,0.3
+		size_hint_y: 0.08
+		pos_hint: {"top":1}
+		ActionView:
+			ActionPrevious:
+				title: "Snaky Game"
+				with_previous: True
+				on_press: root.manager.current  = "menu_screen"; game.pause(); game.play_sound("bclick.wav")
+			ActionOverflow:
+			ActionButton:
+				text: "New game" if (game.is_on_pause or game.beginning) else "Stop"
+				on_press: game.begin() if (game.is_on_pause or game.beginning) else game.pause(); game.play_sound("bclick.wav")
+			ActionButton: 
+				text: "Score: {}".format(game.score)
+			ActionButton:
+				text: "Level: {}".format(game.level)
+			ActionButton:
+				text: "Save" 
+				on_press: print("Saving the game."); game.save(); game.play_sound("bclick.wav")
+			ActionButton:
+				id: load_button
+				text: "Load"
+				on_press: game.pause(), game.open_load_popup(); game.play_sound("bclick.wav")
+			ActionButton:
+				icon: "atlas://data/images/defaulttheme/audio-volume-high" if game.sound else "atlas://data/images/defaulttheme/audio-volume-muted"
+				on_press: game.change_sound(); game.play_sound("bclick.wav")
+
+	SnakeGame:
+		snaky: snake
+		id: game
+		Snake:
+			id: snake
+			center: self.parent.center	
+			size: self.parent.height*0.067, self.parent.height*0.067
+			canvas:
+				Ellipse:
+					pos: self.pos
+					size: self.size
+					source: game.snaky_png
+		
+<MenuScreen>:
+	name: "menu_screen"
+	id: menu
+	canvas:
+        Rectangle:
+			pos: self.pos
+			size: self.size
+			source: "lights.png"
+
+	FloatLayout:
+		Image:
+			source: "Snaky-logo.png"
+			pos_hint: {'center_x':.5, 'center_y':.75}
+			allow_stretch: True
+			size_hint: 0.7, 0.15
+			
+		Button: 
+			id: play
+			size_hint: 0.3, 0.09
+			pos_hint: {'center_x':.5, 'center_y':.39}
+			on_release: root.manager.current = "game_screen"
+			on_press: menu.play("bclick.wav")
+			background_normal: "play_button.png"
+		Button:
+			id: records
+			size_hint: 0.3, 0.07
+			pos_hint: {'center_x':.5, 'center_y':.3}
+			on_press: root.show_popup_records(); menu.play("bclick.wav")
+			background_normal: "high_scores.png"
+		Button: 
+			id: how
+			size_hint: 0.3, 0.07
+			pos_hint: {'center_x':.5, 'center_y':.225}
+			on_press: root.show_popup_inst(); menu.play("bclick.wav")
+			background_normal: "how_to.png"
+		Button:
+			id: about
+			size_hint: 0.3, 0.07
+			pos_hint: {'center_x':.5, 'center_y':.15}
+			on_press: root.show_popup_about(); menu.play("bclick.wav")
+			background_normal: "about_button.png"
+
+<InstructionsPopup>:
+	size_hint: .45, .75
+	title: "How to play"
+	title_size: self.height*0.045
+	background_color: 1,1,1,0.5
+	background: "pop.png"
+	
+<AboutPopup>:
+	size_hint: .4,.4
+	title: "About this game"
+	title_size: self.height*0.08
+	background_color: 1,1,1,0.5
+	background: "pop.png"
+	
+<RecordsPopup>:
+	size_hint: .4, .4
+	title: "High Scores"
+	title_size: self.height*0.08
+	background_color: 1,1,1,0.5
+	background: "pop.png"
+	
+<GameOverPopup>:
+	size_hint: .3, .4
+	title: "You lost!"
+	title_size: self.height*0.08
+	background_color: 1,1,1,0.5
+	background: "pop.png"
+	auto_dismiss: False
+	
+<GameSavedPopup>:
+	size_hint: .35, .3
+	title: "Game saving status:"
+	title_size: self.height*0.09
+	background_color: 1,1,1,0.5
+	background: "pop.png"
+		
+<GameSavingPopup>:
+	size_hint: .35, .3
+	title: "Name the game:"
+	title_size: self.height*0.09
+	background_color: 1,1,1,0.5
+	background: "pop.png"
+	
+<SelectLoadPopup>:
+	size_hint: .4, .6
+	title: "Select game:"
+	title_size: self.height*0.05
+	background_color: 1,1,1,0.5
+	background: "pop.png"
+	
+<RootScreen>:
+	id: screen_manager
+	transition: FadeTransition()
+	MenuScreen:
+		name: "menu_screen"
+	GameScreen:
+		name: "game_screen"

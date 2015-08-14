@@ -1,0 +1,19 @@
+Start the game by clicking the New game 
+button located in ActionBar.
+
+Move to right/left by clicking on right/left
+side of the Snaky.
+
+Your goal is to eat fruits before Evil Snaky 
+eats them. With eating, your score and level 
+grows. Don't try to eat a TNT because your 
+score will decrease. If Evil Snaky eats it,
+two new TNTs appears.
+
+With level growth, the velocity of both snakes 
+will increase!
+
+Beware, if you crash into any wall or Evil Snaky, 
+you lose.
+
+Good luck !

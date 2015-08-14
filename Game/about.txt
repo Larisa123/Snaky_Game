@@ -1,0 +1,5 @@
+This game was created in Kivy, 
+an open source software library 
+for app development. 
+
+Created by: Larisa Carli
