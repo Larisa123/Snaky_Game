@@ -1,0 +1,8 @@
+Igra je napisana v Python knjiznjici Kivy, ki jo je treba posebaj namestiti na racunalnik.
+Navodila za namestitev so na spletni strani kivy.org.
+
+Za delovanje na racunalniskih sistemih je potrebno poganjati datoteko iz mape s vsemi 
+prilozenimi datotekami, za delovanje na mobilnih operacijskih sistemih pa je potrebno 
+naloziti le datoteko .apk na telefon z androidom. Igra bi morala delovati na vecini novejsih 
+verzijah androida, mozno pa je da na nekaterih nepravilno prikazuje napise na gumbih ali 
+z zamikom nalaga slike oz. predvaja zvoke igre.
