@@ -102,12 +102,6 @@ class Fruit(Widget):
     def update_bg_pos(self, instance, value):
         self.rect_bg.pos = value
 
-class LevelLabel(Label):
-    def __init__(self, pos, **kwargs): 
-        super(LevelLabel, self).__init__(**kwargs)
-        self.pos = pos
-        self.font_size = 70, 70
-        self.text = self.text
 
 class TNT(Fruit):
     pass
@@ -149,7 +143,6 @@ class SnakeGame(Widget):
     tnt_list = []
     point_list = []
     minus_point_list = []
-    update_list = []
     
 
     def __init__(self, *args, **kwargs):
@@ -213,8 +206,6 @@ class SnakeGame(Widget):
                 self.remove_fruit(fruit)
             for tnt in self.tnt_list:
                 self.remove_tnt(tnt)
-            for label in self.update_list:
-                self.remove_update(label)
             self.gameover = False
 
         if self.fruit_list != [] or self.tnt_list != []:
@@ -299,40 +290,26 @@ class SnakeGame(Widget):
             if randomint % 68 == 0: self.remove_point(point)
         for point in self.minus_point_list:
             if randomint % 70 == 0: self.remove_minus_point(point)
-        # upgrade level removal:
-        if self.level > 1 and randomint%30 == 0:
-            for label in self.update_list:
-                self.remove_update(label)
 
     def level_update(self, *args):
         pos = self.width*0.5, self.height*0.7
-        l = LevelLabel(pos)
         if self.score < 0: self.game_over()
         elif self.score < 10:
             self.level = 1
         elif self.score >= 10:
             self.level = 2
-            l.text = "Level 2!"
-            self.snaky.velocity = 1.002*Vector(self.snaky.velocity)
-            self.evil_snaky.velocity = 1.002*Vector(self.evil_snaky.velocity)
+            self.snaky.velocity = 1.001*Vector(self.snaky.velocity)
+            self.evil_snaky.velocity = 1.001*Vector(self.evil_snaky.velocity)
         elif self.score >= 25:
             self.level = 3
-            l.text = "Level 3!"
-            self.snaky.velocity = 1.002*Vector(self.snaky.velocity)
-            self.evil_snaky.velocity = 1.002*Vector(self.evil_snaky.velocity)
+            self.snaky.velocity = 1.001*Vector(self.snaky.velocity)
+            self.evil_snaky.velocity = 1.001*Vector(self.evil_snaky.velocity)
         elif self.score >= 40:
             self.level = 3
-            l.text = "Level 4!"
-            self.snaky.velocity = 1.002*Vector(self.snaky.velocity)
-            self.evil_snaky.velocity = 1.002*Vector(self.evil_snaky.velocity)
+            self.snaky.velocity = 1.001*Vector(self.snaky.velocity)
+            self.evil_snaky.velocity = 1.001*Vector(self.evil_snaky.velocity)
         if self.level > 1:
-            self.add_widget(l)
-            self.update_list.append(l)
-        self.updated = True
-        
-    def remove_update(self, obejct, *args):
-        self.remove_widget(obejct)
-        self.update_list.remove(obejct)
+            self.updated = True
 
     def play_sound(self, file, *args):
         if self.sound and not self.beginning:
@@ -343,13 +320,6 @@ class SnakeGame(Widget):
     def change_sound(self, *args):
         self.sound = not self.sound
         sound_on = self.sound # sound_on is a global variable
-
-        #if self.sound:
-        #    sound = SoundLoader.load("pure_blood-bg_music.mp3")
-        #    sound.volume = 0.1
-        #    sound.play()
-        #elif not self.sound:
-        #    SoundLoader.unload("pure_blood-bg_music.mp3")
 
     def widget_collision(self, object1, object2, *args):
         if object1 == self.snaky and object2 == self.evil_snaky:
@@ -621,15 +591,9 @@ class SelectLoadPopup(Popup):
     pass
 
 
-
 class SnakyGameApp(App):
     def build(self):
         self.load_kv("snaky_kv.kv")
-
-        if sound_on:
-            sound = SoundLoader.load("pure_blood-bg_music.mp3")
-            sound.volume=0.1
-            sound.play()
 
         return RootScreen()
         
